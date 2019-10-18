@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <StartupObject>ContactsManager.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="%2a%2a\**" />
+    <Compile Remove="VueJS\**" />
+    <Content Remove="%2a%2a\**" />
+    <Content Remove="VueJS\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
+    <EmbeddedResource Remove="VueJS\**" />
+    <EntityDeploy Remove="VueJS\**" />
+    <None Remove="%2a%2a\**" />
+    <None Remove="VueJS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="%2a%2a/%2a.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="%2a%2a\%2a.config" />
+    <Content Remove="%2a%2a\%2a.json" />
+    <Content Remove="%2a%2a\%2a.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="%2a%2a/%2a.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="%2a%2a/%2a" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="VueJS\contacts-app\package.json" />
+    <Content Include="VueJS\contacts-app\src\assets\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VueJS\contacts-app\.gitignore" />
+    <None Include="VueJS\contacts-app\babel.config.js" />
+    <None Include="VueJS\contacts-app\plugins\vuetify.js" />
+    <None Include="VueJS\contacts-app\README.md" />
+    <None Include="VueJS\contacts-app\src\App.vue" />
+    <None Include="VueJS\contacts-app\src\assets\logo.svg" />
+    <None Include="VueJS\contacts-app\src\components\Contacts.vue" />
+    <None Include="VueJS\contacts-app\src\components\Hello.vue" />
+    <None Include="VueJS\contacts-app\src\ContactsApiService.js" />
+    <None Include="VueJS\contacts-app\src\main.js" />
+    <None Include="VueJS\contacts-app\src\plugins\axios.js" />
+    <None Include="VueJS\contacts-app\src\plugins\vuetify.js" />
+    <None Include="VueJS\contacts-app\src\router.js" />
+    <None Include="VueJS\contacts-app\src\store\index.js" />
+    <None Include="VueJS\contacts-app\vue.config.js" />
+    <None Include="VueJS\contacts-app\webpack.config.js" />
+    <None Include="VueJS\contacts-app\yarn-error.log" />
+    <None Include="VueJS\contacts-app\yarn.lock" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>
