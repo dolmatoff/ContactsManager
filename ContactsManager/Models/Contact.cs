@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ContactsManager.Extentions;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace ContactsManager.ContactsApp.Models
+namespace ContactsManager.Models
 {
     /// <summary>
     /// Represents Contacts table (its columns) and maps the data from the database to the .NET Core
