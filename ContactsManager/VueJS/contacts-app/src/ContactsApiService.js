@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const client = axios.create({
-    baseURL: 'https://localhost:44350/api',
+    baseURL: 'https://localhost:44350/api/v1',
     json: true
 })
 
@@ -14,6 +14,12 @@ export default {
             data,
         }).then(req => {
             return req.data
+        }).catch(error => {
+            if (!error.response) {
+                this.errorStatus = 'Error: Network Error';
+            } else {
+                this.errorStatus = error.response.data.message;
+            }
         })
     },
     getAll() {
@@ -29,6 +35,6 @@ export default {
         return this.execute('delete', `/contacts/${id}`)
     },
     async getJobs(){
-        return this.execute('get', '/career/')
+        return this.execute('get', '/careers/')
     }
 }

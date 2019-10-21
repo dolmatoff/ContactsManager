@@ -1,10 +1,7 @@
-﻿// Vue imports
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Router from 'vue-router'
-
-// our own imports
-import Hello from '@/components/Hello'
 import Contacts from '@/components/Contacts'
+import NotFoundPage from '@/components/NotFoundPage'
 
 Vue.use(Router)
 
@@ -13,17 +10,13 @@ let router = new Router({
     routes: [
         {
             path: '/',
-            name: 'Hello',
-            component: Hello
+            name: 'Contacts',
+            component: Contacts
         },
         {
-            path: '/contacts',
-            name: 'Contacts',
-            component: Contacts,
-            meta: {
-                requiresAuth: true
-            }
-        },
+            path: "*",
+            component: NotFoundPage
+        }
     ]
 })
 

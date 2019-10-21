@@ -32,6 +32,7 @@ namespace ContactsManager.Models
         [RangeDate(ErrorMessage = "{0} must be between {1:dd/MM/yyyy} and {2:dd/MM/yyyy}")]
         public DateTime Birthdate { get; set; }
 
+        [ForeignKey("Career")]
         [Required(ErrorMessage = "Career is required"), StringLength(30, MinimumLength = 3, ErrorMessage = "{0} must contain from  {2} to {1} characters.")]
         public string Career { get; set; }
 

@@ -28,14 +28,6 @@ namespace ContactsManager.Extentions
             });
         }
 
-        public static void ConfigureIISIntegration(this IServiceCollection services)
-        {
-            services.Configure<IISOptions>(options =>
-            {
-
-            });
-        }
-
         public static void ConfigureLoggerService(this IServiceCollection services)
         {
             services.AddSingleton<ILoggerManager, LoggerManager>();
@@ -52,6 +44,7 @@ namespace ContactsManager.Extentions
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IAsyncRepository<Contact>, GenericRepository<Contact>>();
+            services.AddScoped<IAsyncRepository<Career>, GenericRepository<Career>>();
         }
 
         /// <summary>

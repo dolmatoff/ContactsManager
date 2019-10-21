@@ -7,9 +7,10 @@
         </v-app-bar>
 
         <v-content>
-            <v-container class="fill-height"
-                         fluid>
+            <v-container class="fill-width" fluid>
+
                 <router-view />
+
             </v-container>
         </v-content>
 

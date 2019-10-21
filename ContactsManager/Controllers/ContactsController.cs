@@ -28,7 +28,7 @@ namespace ContactsManager.Controllers
 
         // GET api/v1/contacts
         [HttpGet]
-        public async Task<ActionResult<List<Contact>>> Get(int page = 0, int pageSize = 5)
+        public async Task<ActionResult<List<Contact>>> Get(int page = 0, int pageSize = 10)
         {
             try
             {

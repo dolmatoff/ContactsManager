@@ -41,14 +41,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="VueJS\.editorconfig" />
     <None Include="VueJS\contacts-app\.gitignore" />
     <None Include="VueJS\contacts-app\babel.config.js" />
     <None Include="VueJS\contacts-app\plugins\vuetify.js" />
     <None Include="VueJS\contacts-app\README.md" />
     <None Include="VueJS\contacts-app\src\App.vue" />
     <None Include="VueJS\contacts-app\src\assets\logo.svg" />
+    <None Include="VueJS\contacts-app\src\components\ContactForm.vue" />
     <None Include="VueJS\contacts-app\src\components\Contacts.vue" />
-    <None Include="VueJS\contacts-app\src\components\Hello.vue" />
+    <None Include="VueJS\contacts-app\src\components\NotFoundPage.vue" />
     <None Include="VueJS\contacts-app\src\ContactsApiService.js" />
     <None Include="VueJS\contacts-app\src\main.js" />
     <None Include="VueJS\contacts-app\src\plugins\axios.js" />
@@ -67,6 +69,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>

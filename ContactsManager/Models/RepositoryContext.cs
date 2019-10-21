@@ -1,6 +1,7 @@
 ﻿using ContactsManager.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace ContactsManager
 {
@@ -15,9 +16,6 @@ namespace ContactsManager
             Database.EnsureCreated();
         }
 
-        // List of contacts
-        public DbSet<Contact> Contacts { get; set; }
-
         /// <summary>
         /// Init Contacts table with test data
         /// </summary>
@@ -25,6 +23,26 @@ namespace ContactsManager
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            List<Career> careers = new List<Career>();
+
+            Array.ForEach(new string[] {
+                "Medicine",
+                "Engineering",
+                "Computer science",
+                "Management",
+                "Accounting",
+                "Teaching",
+                "Art",
+                "Sales",
+                "Driver",
+                "Student"
+            }, e => careers.Add(new Career { Name = e }));
+
+            modelBuilder.Entity<Career>(options =>
+            {
+                options.HasData(careers);
+            });
+
             modelBuilder.Entity<Contact>(options =>
             {
                 options.HasData(

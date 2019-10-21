@@ -1,156 +1,110 @@
 ﻿<template>
- <v-card>
-    <v-card-title>
-      Contacts
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
+    <v-card class="mx-auto"
+            max-width="100%">
+        <v-card-title>
+            Contacts table
+            <v-spacer></v-spacer>
+            <v-text-field v-model="search"
+                          append-icon="search"
+                          label="Search"
+                          single-line
+                          hide-details
+                          :disabled="error != '' || loading"></v-text-field>
+        </v-card-title>
 
-    <v-data-table
-    :headers="headers"
-    :items="contacts"
-    sort-by="calories"
-    class="elevation-1"
-    :search="search"
-  >
+        <v-data-table :headers="headers"
+                      :items="contacts"
+                      sort-by="calories"
+                      class="elevation-1"
+                      :search="search"
+                      :loading="loading">
 
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-form
-                ref="form"
-                v-model="valid"
-                lazy-validation
-              >
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Name" :rules="stringRules"
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.surname" label="Surname" :rules="stringRules"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-radio-group v-model="editedItem.gender" label="Gender:" column 
-                      :rules="[v => !!v || 'Gender is required']">
-                      <v-radio label="Male" value="M"></v-radio>
-                      <v-radio label="Female" value="F"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-menu
-                      ref="menu"
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :return-value.sync="editedItem.birthdate"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          v-model="editedItem.birthdate"
-                          label="Birthdate"
-                          prepend-icon="event"
-                          readonly
-                          v-on="on"
-                          :rules="[v => !!v || 'Birthdate is required']"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="editedItem.birthdate" no-title scrollable>
-                        <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.menu.save(editedItem.birthdate)">OK</v-btn>
-                      </v-date-picker>
-                    </v-menu>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.phone" label="Phone" :rules="phoneRules"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-select :items="jobsList" label="Career" v-model="editedItem.career" 
-                      :rules="[v => !!v || 'Career is required']"></v-select>
-                  </v-col>
-
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.comment" label="Comment"></v-text-field>
-                  </v-col>
-
-                </v-row>
-              </v-form>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-btn color="blue darken-1" text @click="reset">Clean Form</v-btn>
+          <template v-slot:top>
+            <v-toolbar flat color="white">
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
+              <v-dialog v-model="dialog" max-width="500px">
+                <template v-slot:activator="{ on }">
+                  <v-btn color="primary" dark class="mb-2" v-on="on" text 
+                         :disabled="error != '' || loading">
+                    New Item
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">{{ formTitle }}</span>
+                  </v-card-title>
 
-    <template v-slot:item.gender="{ item }">
-      <v-icon :color="item.gender == 'M' ? 'blue' : 'pink'" small>person</v-icon>
-    </template>
+                  <v-card-text>
+                    <ContactForm :editedItem.sync="editedItem" :jobsList="jobsList" ref="childForm"/>
+                  </v-card-text>
 
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        edit
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="getAll">Reset</v-btn>
-    </template>
-  </v-data-table>
-  </v-card>
+                  <v-card-actions>
+                    <v-btn color="blue darken-1" text @click="reset">Clean Form</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+
+            <template v-slot:item.gender="{ item }">
+                <v-icon :color="item.gender == 'M' ? 'blue' : 'pink'" small>person</v-icon>
+            </template>
+
+            <template v-slot:item.action="{ item }">
+                <v-icon small
+                        class="mr-2"
+                        @click="editItem(item)">
+                    edit
+                </v-icon>
+                <v-icon small
+                        @click="deleteItem(item)">
+                    delete
+                </v-icon>
+            </template>
+
+            <template v-slot:no-data>
+                <v-col>
+                    <v-alert type="error" timeout=10>
+                        {{ error }}
+                    </v-alert>
+                    <v-btn color="primary" @click="getAll" text>Reset</v-btn>
+                </v-col>
+            </template>
+
+        </v-data-table>
+
+        <v-snackbar v-model="snackbar" vertical>
+            {{ response }}
+            <v-btn color="indigo"
+                   text
+                   @click="snackbar = false">
+                Close
+            </v-btn>
+        </v-snackbar>
+    </v-card>
 </template>
 
 <script>
   import api from '@/ContactsApiService';
+  import ContactForm from './ContactForm.vue';
+
   export default {
+    components: { ContactForm },
     data: () => ({
+      snackbar: false,
+      loading: true,
+      error: '',
       search: '',
       dialog: false,
-      valid: true,
       contacts: [],
       headers: [
         { text: 'Name', value: 'name' },
         { text: 'Surname', value: 'surname' },
         { text: 'Gender', value: 'gender' },
-        { text: 'Birthdate', value: 'birthdate' },
+        { text: 'Birthdate', value: 'birthdate', dataType: "Date" },
         { text: 'Phone', value: 'phone' },
         { text: 'Career', value: 'career' },
         { text: 'Comment', value: 'comment' },
@@ -176,16 +130,7 @@
         comment: ''
       },
       jobsList: [],
-      menu: false,
-      stringRules: [
-        v => !!v || 'Field is required',
-        v => (v && v.length > 1) || 'Field must be more then 1 characters',
-        v => (v && v.length < 39) || 'Field must be less than 40 characters',
-      ],
-      phoneRules: [
-        v => !!v || 'Phone is required',
-        v => /^[\+]?[(]?[0-9]+[)]?[-\s\.]?[0-9]+[-\s\.]?[0-9]+$/im.test(v) || 'Phone must be valid',
-      ],
+      response: '',
     }),
 
     computed: {
@@ -210,21 +155,25 @@
         try {
           this.contacts = await api.getAll()
           this.jobsList = await api.getJobs()
-          console.log(this.jobList)
-        } finally {
+          this.error = api.errorStatus || ''
+        }
+        finally {
           this.loading = false
         }
       },
 
-      editItem (item) {
+      editItem(item) {
         this.editedIndex = this.contacts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        const index = this.contacts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.contacts.splice(index, 1)
+        const index = item.id
+          if (confirm(`Are you sure you want to delete contact with id = ${index}?`)) {
+              api.delete(index)
+              this.contacts = this.contacts.filter(c => c.id != index)
+          }
       },
 
       close () {
@@ -232,29 +181,39 @@
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
-        }, 300)
+        }, 3000)
+      },
+      childForm() {
+        return this.$refs.childForm.$refs.form;
       },
 
-      save () {
-        if (this.$refs.form.validate()) {
-            this.snackbar = true
-
-            if (this.editedIndex > -1) {
-              Object.assign(this.contacts[this.editedIndex], this.editedItem)
-              api.update(this.editedItem.id, this.editedItem)
-            } else {
-              this.contacts.push(this.editedItem)
-              api.create(this.editedItem)
-            }
+      save() {
+          if (this.childForm().validate()) {
+              new Promise((resolve, reject) => {
+                  if (this.editedIndex > -1) {
+                    Object.assign(this.contacts[this.editedIndex], this.editedItem)
+                    resolve(api.update(this.editedItem.id, this.editedItem))
+                  }
+                  else {
+                    resolve(api.create(this.editedItem))
+                  }
+              }).then(result => {
+                  this.response = result
+                  this.error = api.errorStatus || ''
+                this.snackbar = this.error == ''
+                if (this.editedIndex < 0) {
+                    this.contacts.push(result)
+                  } 
+              })
 
             this.close()
         }
       },
       reset () {
-        this.$refs.form.reset()
+        this.childForm().reset()
       },
       resetValidation () {
-        this.$refs.form.resetValidation()
+        this.childForm().resetValidation()
       },
     },
   }
