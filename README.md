@@ -7,7 +7,7 @@ Please, launch the server-app and client-app (on localhost) and try to edit some
 
 Here is what api-requests mean:
 | url  | method | action |
-| ------------- | ------------- | -------------|
+| ------------- | ------------- | ------------- |
 | api/v1/contacts  | GET  | Retrieve all contacts |
 | api/v1/contacts  | POST  | Create a new contact |
 | api/v1/contacts/{id}  | PUT  | Edit a contact with id |
