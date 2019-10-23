@@ -15,3 +15,8 @@ Here is what api-requests mean:
 | api/v1/contacts/id | DELETE  | Remove a contact with id |
 | api/v1/careers | GET  | Retrieve all careers |
 
+TODO:
+- error messages in a more friendly way
+- pagination and progress
+- filtering on server side
+- covering by tests
