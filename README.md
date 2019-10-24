@@ -16,6 +16,7 @@ Here is what api-requests mean:
 | api/v1/careers | GET  | Retrieve all careers |
 
 TODO:
+- logging
 - error messages in a more friendly way
 - pagination and progress
 - filtering on server side
